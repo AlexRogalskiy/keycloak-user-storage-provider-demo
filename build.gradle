@@ -1,0 +1,47 @@
+plugins {
+    id 'war'
+    id 'io.freefair.lombok' version '5.3.0'
+}
+
+group 'com.habr'
+version '1.0-SNAPSHOT'
+
+ext {
+    keycloakVersion = '12.0.3'
+    jbossLoggingVersion = '3.4.1.Final'
+    springVersion = '5.3.3'
+    springSecurityVersion = '5.4.4'
+    junitVersion = '5.7.1'
+    mockitoVersion = '3.7.7'
+    javaxWsRsVersion = '2.1.1'
+    h2Version = '1.4.200'
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    testImplementation.extendsFrom compileOnly
+}
+
+dependencies {
+    compileOnly "org.keycloak:keycloak-core:$keycloakVersion"
+    compileOnly "org.keycloak:keycloak-server-spi:$keycloakVersion"
+    compileOnly "org.jboss.logging:jboss-logging:$jbossLoggingVersion"
+
+    implementation "org.springframework:spring-core:$springVersion"
+    implementation "org.springframework:spring-jdbc:$springVersion"
+    implementation "org.springframework.security:spring-security-core:$springSecurityVersion"
+
+    testImplementation platform("org.junit:junit-bom:$junitVersion")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    testRuntimeOnly "javax.ws.rs:javax.ws.rs-api:$javaxWsRsVersion"
+    testRuntimeOnly "com.h2database:h2:$h2Version"
+}
+
+test {
+    useJUnitPlatform()
+}
